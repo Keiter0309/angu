@@ -13,6 +13,11 @@ import {  FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './auth/login/login.component';
 import { ResComponent } from './auth/res/res.component';
+import { ShopComponent } from './shop/shop.component';
+import { ShopSingleComponent } from './shop-single/shop-single.component';
+import { SuccessComponent } from './success/success.component';
+import { AboutComponent } from './about/about.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -28,7 +33,12 @@ import { ResComponent } from './auth/res/res.component';
     LoginComponent,
     ProductDetailComponent,
     ResComponent,
-
+    ShopComponent,
+    ShopSingleComponent,
+    SuccessComponent,
+    AboutComponent,
+    AdminComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -36,7 +46,7 @@ import { ResComponent } from './auth/res/res.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

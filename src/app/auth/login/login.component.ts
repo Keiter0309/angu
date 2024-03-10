@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,24 +11,18 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent {
   login:any []=[];
-  
+
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService, private router: Router) { 
     this.authService.getAllUserList().subscribe(data=>{
-      this.login =data
+      this.login = data
     })
   }
 
-  // submit() {
-  //   const email = this.loginForm.value.email;
-  //   const password = this.loginForm.value.password;
-  //   console.log(email);
-  //   console.log(password);
-  // }
   submit() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
@@ -41,6 +37,11 @@ export class LoginComponent {
             showConfirmButton: false,
             timer: 1500
           });
+          if (this.authService.isAdmin()) {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/']);
+          }
         } else {
           Swal.fire({
             position: "top-end",

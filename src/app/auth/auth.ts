@@ -4,5 +4,6 @@ export interface LoginForm {
     ten :string,
     sdt :string,
     email :string,
-    password:string 
+    password:string ,
+    role: string
 }

@@ -9,18 +9,31 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class CartService {
+  
   protected cartList:Cart[] =[]
   constructor(
     private prod:ProductService,
     private router:Router,
     private authService: AuthService
-    ) { }
+    ) { 
+    this.loadCart();
+    }
   
   getCartAll(){
     return this.cartList
   }
   getInStock(id:number){
     return this.cartList.find(i=>i.Id === id)?.InStock
+  }
+
+  loadCart() {
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+      this.cartList = JSON.parse(cart);
+    }
+  }
+  saveCart() {
+    localStorage.setItem('cart', JSON.stringify(this.cartList));
   }
   addCart(index:number, frmProdut:any){
     let iteminCart=this.cartList.filter(i=>i.Id==index)
@@ -69,12 +82,12 @@ export class CartService {
     console.log(this.cartList);
     return total;
   }
-  RemoveItemInCart(index:number){
-    this.cartList[index].InStock!+=1
-    this.cartList[index].Quantity!+=1
-    if (this.cartList[index].Quantity==0) {
-      this.cartList[index]
+  RemoveItemInCart(item: Cart) {
+    const index = this.cartList.indexOf(item);
+    if (index > -1) {
+      this.cartList.splice(index, 1);
     }
+    this.saveCart();
   }
  TotalInCart(){
   this.cartList.forEach(item => {

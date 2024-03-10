@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Cart } from '../cart';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-checkout',
@@ -9,19 +11,30 @@ import { Cart } from '../cart';
 })
 export class CheckoutComponent {
   cartList: Cart[] = [];
- constructor(
-  private cartservice : CartService,
- 
- ){
 
-  
+  constructor(
+    private cartService: CartService,
+    private http: HttpClient,
+  ) {
+    
+  }
 
- }
- ngOnInit(): void {
-  this.cartList = this.cartservice.getCartAll();
-  this.cartservice.TotalInCart();
-}
-TotalPrice(){
-  return this.cartservice.Total();
-}
+  ngOnInit(): void {
+    this.cartList = this.cartService.getCartAll();
+    this.cartService.TotalInCart();
+    if(this.cartList.length > 0){
+      this.getCartItems(this.cartList[0]);
+    }
+  }
+
+  getCartItems(item: Cart) {
+    this.http.get('http://localhost:3000/cart').subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  TotalPrice() {
+    return this.cartService.Total();
+  }
+
 }
